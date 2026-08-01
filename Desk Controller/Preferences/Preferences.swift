@@ -121,7 +121,7 @@ class Preferences {
             if let metric = UserDefaults.standard.value(forKey: isMetricKey) {
                 return metric as! Bool
             }
-            return NSLocale.current.usesMetricSystem // Default from locale
+            return NSLocale.current.measurementSystem != .us // Default from locale
         }
         
         set {
