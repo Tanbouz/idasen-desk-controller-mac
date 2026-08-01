@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,7 +15,7 @@
 		7D81872325ABF1500076DC19 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D81872225ABF1500076DC19 /* Extensions.swift */; };
 		7D81874B25AC13AF0076DC19 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D81874A25AC13AF0076DC19 /* Cocoa.framework */; };
 		7D81874F25AC13BD0076DC19 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D81874E25AC13BD0076DC19 /* CoreBluetooth.framework */; };
-		7D8B1CC425AC2DD000ED1970 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 7D8B1CC325AC2DD000ED1970 /* LaunchAtLogin */; };
+		7D81874D25AC13BD0076DC19 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D81874C25AC13B80076DC19 /* ServiceManagement.framework */; };
 		7D93E28825AAB38B00F37364 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D93E28725AAB38B00F37364 /* AppDelegate.swift */; };
 		7D93E28A25AAB38B00F37364 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D93E28925AAB38B00F37364 /* ViewController.swift */; };
 		7D93E28C25AAB38D00F37364 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D93E28B25AAB38D00F37364 /* Assets.xcassets */; };
@@ -62,7 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D8B1CC425AC2DD000ED1970 /* LaunchAtLogin in Frameworks */,
+				7D81874D25AC13BD0076DC19 /* ServiceManagement.framework in Frameworks */,
 				7D81874B25AC13AF0076DC19 /* Cocoa.framework in Frameworks */,
 				7D81874F25AC13BD0076DC19 /* CoreBluetooth.framework in Frameworks */,
 			);
@@ -160,16 +160,12 @@
 				7D93E28025AAB38B00F37364 /* Sources */,
 				7D93E28125AAB38B00F37364 /* Frameworks */,
 				7D93E28225AAB38B00F37364 /* Resources */,
-				7D8B1CC625AC2DDD00ED1970 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "Desk Controller";
-			packageProductDependencies = (
-				7D8B1CC325AC2DD000ED1970 /* LaunchAtLogin */,
-			);
 			productName = "Desk Controller";
 			productReference = 7D93E28425AAB38B00F37364 /* Desk Controller.app */;
 			productType = "com.apple.product-type.application";
@@ -180,8 +176,9 @@
 		7D93E27C25AAB38B00F37364 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1230;
-				LastUpgradeCheck = 1230;
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1700;
+				LastUpgradeCheck = 1700;
 				TargetAttributes = {
 					7D93E28325AAB38B00F37364 = {
 						CreatedOnToolsVersion = 12.3;
@@ -197,9 +194,6 @@
 				Base,
 			);
 			mainGroup = 7D93E27B25AAB38B00F37364;
-			packageReferences = (
-				7D8B1CC225AC2DD000ED1970 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
-			);
 			productRefGroup = 7D93E28525AAB38B00F37364 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -222,26 +216,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		7D8B1CC625AC2DDD00ED1970 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${BUILT_PRODUCTS_DIR}/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/copy-helper-swiftpm.sh\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7D93E28025AAB38B00F37364 /* Sources */ = {
@@ -315,6 +289,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -329,7 +304,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -376,6 +351,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -384,7 +360,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -402,7 +378,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 3P725D2V7A;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Desk Controller/Info.plist";
@@ -410,7 +386,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				// x-release-please-version
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.davidwilliames.Desk-Controller";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -426,7 +403,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 3P725D2V7A;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Desk Controller/Info.plist";
@@ -434,7 +411,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				// x-release-please-version
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.davidwilliames.Desk-Controller";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -464,24 +442,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		7D8B1CC225AC2DD000ED1970 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		7D8B1CC325AC2DD000ED1970 /* LaunchAtLogin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7D8B1CC225AC2DD000ED1970 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
-			productName = LaunchAtLogin;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7D93E27C25AAB38B00F37364 /* Project object */;
 }

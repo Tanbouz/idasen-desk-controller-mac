@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Existing release tag to attach the build to"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-upload:
+    runs-on: macos-latest
+
+    env:
+      TAG_NAME: ${{ github.event.release.tag_name || github.event.inputs.tag_name }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Build (ad-hoc signed)
+        run: |
+          xcodebuild \
+            -project "Desk Controller.xcodeproj" \
+            -scheme "Desk Controller" \
+            -configuration Release \
+            -derivedDataPath build \
+            CODE_SIGN_IDENTITY="-" \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGNING_REQUIRED=NO \
+            DEVELOPMENT_TEAM="" \
+            build
+
+      - name: Zip app
+        run: |
+          cd build/Build/Products/Release
+          ditto -c -k --sequesterRsrc --keepParent "Desk Controller.app" "$GITHUB_WORKSPACE/Desk.Controller.app.zip"
+
+      - name: Upload asset to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "$TAG_NAME" \
+            Desk.Controller.app.zip --clobber -R "${{ github.repository }}"
+
+      - name: Note on Gatekeeper
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release edit "$TAG_NAME" -R "${{ github.repository }}" \
+            --notes "$(gh release view "$TAG_NAME" -R "${{ github.repository }}" --json body -q .body)
+
+          ---
+          This build is **ad-hoc signed, not notarized**. On first launch, macOS Gatekeeper may block it —
+          right-click (or Control-click) the app and choose **Open**, or run:
+          \`\`\`
+          xattr -cr \"/Applications/Desk Controller.app\"
+          \`\`\`"

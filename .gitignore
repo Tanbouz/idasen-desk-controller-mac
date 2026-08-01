@@ -24,6 +24,10 @@ DerivedData/
 build/
 Builds/
 
+####
+# Built app bundles (distributed via GitHub Releases, not tracked in git)
+/Desk Controller.app/
+
 #####
 # Xcode private settings (window sizes, bookmarks, breakpoints, custom executables, smart groups)
 *.pbxuser
