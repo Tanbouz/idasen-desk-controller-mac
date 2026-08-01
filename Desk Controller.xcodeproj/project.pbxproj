@@ -386,6 +386,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				// x-release-please-version
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.davidwilliames.Desk-Controller";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -410,6 +411,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				// x-release-please-version
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.davidwilliames.Desk-Controller";
 				PRODUCT_NAME = "$(TARGET_NAME)";
