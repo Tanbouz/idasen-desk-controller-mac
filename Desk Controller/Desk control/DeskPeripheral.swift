@@ -31,7 +31,9 @@ class DeskPeripheral: NSObject {
     var speed: Float = 0
     
     var hasLoadedPositionCharacteristicValues = false
-    
+
+    private var pollTimer: Timer?
+
     var onPositionChange: (Float) -> Void = { _ in }
     var position: Float? {
         didSet {
@@ -46,11 +48,26 @@ class DeskPeripheral: NSObject {
     
     init(peripheral: CBPeripheral) {
         self.peripheral = peripheral
-        
+
         super.init()
-        
+
         peripheral.delegate = self
         peripheral.discoverServices(nil)
+    }
+
+    deinit {
+        pollTimer?.invalidate()
+    }
+
+    // Belt-and-suspenders against notify subscriptions that silently fail or
+    // get dropped (observed with ad-hoc-signed builds), which would otherwise
+    // leave `position` frozen at whatever the initial `readValue` returned.
+    private func startPollingFallback() {
+        pollTimer?.invalidate()
+        pollTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            guard let self = self, let characteristic = self.positionCharacteristic else { return }
+            self.peripheral.readValue(for: characteristic)
+        }
     }
 }
 
@@ -92,6 +109,7 @@ extension DeskPeripheral: CBPeripheralDelegate {
                 peripheral.readValue(for: characteristic)
                 // Start monitoring the position / speed
                 peripheral.setNotifyValue(true, for: characteristic)
+                startPollingFallback()
             } else if characteristic.uuid == DeskPeripheral.deskControlCharacteristicUUID {
                 // print("Discovered control characteristic: \(characteristic)")
                 controlCharacteristic = characteristic
@@ -103,6 +121,12 @@ extension DeskPeripheral: CBPeripheralDelegate {
         }
     }
     
+    func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
+        if let error = error {
+            print("Failed to subscribe to notifications for \(characteristic.uuid): \(error)")
+        }
+    }
+
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         
         if characteristic == positionCharacteristic, let value = characteristic.value {
