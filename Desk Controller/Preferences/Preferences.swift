@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import LaunchAtLogin
+import ServiceManagement
 
 enum Position {
     case sit, stand, custom(height: Float)
@@ -132,11 +132,19 @@ class Preferences {
     
     var openAtLogin: Bool {
         get {
-            return LaunchAtLogin.isEnabled
+            return SMAppService.mainApp.status == .enabled
         }
         set {
             // print("Saving launch at login: \(newValue)")
-            LaunchAtLogin.isEnabled = newValue
+            do {
+                if newValue {
+                    try SMAppService.mainApp.register()
+                } else {
+                    try SMAppService.mainApp.unregister()
+                }
+            } catch {
+                print("Failed to \(newValue ? "register" : "unregister") launch at login: \(error)")
+            }
         }
     }
     
