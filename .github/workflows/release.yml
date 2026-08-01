@@ -1,23 +1,27 @@
 name: Release
 
 on:
-  release:
-    types: [published]
   workflow_dispatch:
     inputs:
       tag_name:
         description: "Existing release tag to attach the build to"
         required: true
+  workflow_call:
+    inputs:
+      tag_name:
+        description: "Existing release tag to attach the build to"
+        required: true
+        type: string
 
 permissions:
   contents: write
 
 jobs:
   build-and-upload:
-    runs-on: macos-latest
+    runs-on: macos-15
 
     env:
-      TAG_NAME: ${{ github.event.release.tag_name || github.event.inputs.tag_name }}
+      TAG_NAME: ${{ github.event.inputs.tag_name || inputs.tag_name }}
 
     steps:
       - name: Checkout
@@ -52,8 +56,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release edit "$TAG_NAME" -R "${{ github.repository }}" \
-            --notes "$(gh release view "$TAG_NAME" -R "${{ github.repository }}" --json body -q .body)
+          BODY="$(gh release view "$TAG_NAME" -R "${{ github.repository }}" --json body -q .body)"
+          if [[ "$BODY" != *"ad-hoc signed, not notarized"* ]]; then
+            gh release edit "$TAG_NAME" -R "${{ github.repository }}" \
+              --notes "$BODY
 
           ---
           This build is **ad-hoc signed, not notarized**. On first launch, macOS Gatekeeper may block it —
@@ -61,3 +67,4 @@ jobs:
           \`\`\`
           xattr -cr \"/Applications/Desk Controller.app\"
           \`\`\`"
+          fi
