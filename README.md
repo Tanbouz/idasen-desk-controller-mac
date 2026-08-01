@@ -12,6 +12,8 @@ If you find this at least a little bit useful, why don't you help me out by:
 
 [**Download latest release**](https://github.com/DWilliames/idasen-controller/releases/latest/download/Desk.Controller.app.zip)
 
+**Requires macOS 15 (Sequoia) or later**, and is fully native on Apple Silicon.
+
 ---
 
 ![Animated example](/images/example.gif)
